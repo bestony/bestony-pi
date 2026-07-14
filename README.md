@@ -32,7 +32,16 @@ pi -e git:github.com/bestony/bestony-pi
 
 ```bash
 pi install -l /path/to/bestony-pi
+pi install -l npm:@quintinshaw/pi-dynamic-workflows
 ```
+
+本仓库已配置项目级包：
+
+| 包 | 说明 |
+|----|------|
+| [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | Claude Code 风格动态 workflow（`workflow` 工具、`/workflows` 等） |
+
+克隆后在本目录执行 `pi install`（或打开 Pi 时会按 `.pi/settings.json` 自动安装依赖到 `.pi/npm/`）。
 
 ## 卸载 / 管理
 
