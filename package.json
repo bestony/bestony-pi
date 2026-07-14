@@ -1,0 +1,66 @@
+{
+  "name": "bestony-pi-preset",
+  "version": "0.0.1",
+  "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
+  "license": "MIT",
+  "author": "bestony",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-agent",
+    "preset",
+    "skills",
+    "extensions",
+    "prompts",
+    "themes"
+  ],
+  "files": [
+    "extensions",
+    "skills",
+    "prompts",
+    "themes",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestony/bestony-pi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bestony/bestony-pi/issues"
+  },
+  "homepage": "https://github.com/bestony/bestony-pi#readme",
+  "dependencies": {
+    "@tintinweb/pi-subagents": "^0.14.1",
+    "pi-cache-optimizer": "^2.6.17",
+    "pi-init": "^1.0.0",
+    "pi-mcp-adapter": "^2.11.0",
+    "pi-web-access": "^0.13.0",
+    "pi-xai": "^0.15.1"
+  },
+  "bundledDependencies": [
+    "@tintinweb/pi-subagents",
+    "pi-cache-optimizer",
+    "pi-init",
+    "pi-mcp-adapter",
+    "pi-web-access",
+    "pi-xai"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions",
+      "node_modules/pi-web-access/index.ts",
+      "node_modules/pi-xai/index.ts",
+      "node_modules/pi-mcp-adapter/index.ts",
+      "node_modules/pi-cache-optimizer/index.ts",
+      "node_modules/@tintinweb/pi-subagents/src/index.ts"
+    ],
+    "skills": [
+      "./skills",
+      "node_modules/pi-web-access/skills",
+      "node_modules/pi-init/skills/init/SKILL.md"
+    ],
+    "prompts": ["./prompts"],
+    "themes": ["./themes"]
+  }
+}
