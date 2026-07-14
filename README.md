@@ -113,6 +113,7 @@ pi install .
 | [pi-mcp-adapter](https://www.npmjs.com/package/pi-mcp-adapter) | MCP 协议适配扩展 |
 | [pi-cache-optimizer](https://www.npmjs.com/package/pi-cache-optimizer) | Prompt/KV cache 命中优化 |
 | [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
+| [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
 
 它们声明在 `dependencies` + `bundledDependencies` 中，资源通过 `pi.extensions` / `pi.skills` 的 `node_modules/...` 路径引用。
 
