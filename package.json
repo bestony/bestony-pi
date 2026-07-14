@@ -37,6 +37,7 @@
     "pi-cache-optimizer": "^2.6.17",
     "pi-init": "^1.0.0",
     "pi-mcp-adapter": "^2.11.0",
+    "pi-session-name": "^0.1.2",
     "pi-web-access": "^0.13.0",
     "pi-xai": "^0.15.1"
   },
@@ -47,6 +48,7 @@
     "pi-cache-optimizer",
     "pi-init",
     "pi-mcp-adapter",
+    "pi-session-name",
     "pi-web-access",
     "pi-xai"
   ],
@@ -57,6 +59,7 @@
       "node_modules/pi-xai/index.ts",
       "node_modules/pi-mcp-adapter/index.ts",
       "node_modules/pi-cache-optimizer/index.ts",
+      "node_modules/pi-session-name/src/index.ts",
       "node_modules/@tintinweb/pi-tasks/src/index.ts",
       "node_modules/@tintinweb/pi-subagents/src/index.ts",
       "node_modules/@quintinshaw/pi-dynamic-workflows/extensions/workflow.ts"

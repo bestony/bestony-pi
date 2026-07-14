@@ -112,6 +112,7 @@ pi install .
 | [pi-xai](https://www.npmjs.com/package/pi-xai) | xAI Grok Build provider / Responses API |
 | [pi-mcp-adapter](https://www.npmjs.com/package/pi-mcp-adapter) | MCP 协议适配扩展 |
 | [pi-cache-optimizer](https://www.npmjs.com/package/pi-cache-optimizer) | Prompt/KV cache 命中优化 |
+| [pi-session-name](https://www.npmjs.com/package/pi-session-name) | 自动生成会话标题并同步终端标题状态 |
 | [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
 | [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
 | [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
