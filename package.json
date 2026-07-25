@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -31,15 +31,15 @@
   },
   "homepage": "https://github.com/bestony/bestony-pi#readme",
   "dependencies": {
-    "@quintinshaw/pi-dynamic-workflows": "^2.13.1",
-    "@tintinweb/pi-tasks": "^0.7.1",
-    "@tintinweb/pi-subagents": "^0.14.1",
-    "pi-cache-optimizer": "^2.6.17",
+    "@quintinshaw/pi-dynamic-workflows": "^3.4.1",
+    "@tintinweb/pi-tasks": "^0.7.2",
+    "@tintinweb/pi-subagents": "^0.14.3",
+    "pi-cache-optimizer": "^2.6.18",
     "pi-init": "^1.0.0",
-    "pi-mcp-adapter": "^2.11.0",
+    "pi-mcp-adapter": "^2.12.1",
     "pi-session-name": "^0.1.2",
     "pi-web-access": "^0.13.0",
-    "pi-xai": "^0.15.1"
+    "pi-xai": "^0.17.1"
   },
   "bundledDependencies": [
     "@quintinshaw/pi-dynamic-workflows",
@@ -67,7 +67,9 @@
     "skills": [
       "./skills",
       "node_modules/pi-web-access/skills",
-      "node_modules/pi-init/skills/init/SKILL.md"
+      "node_modules/pi-init/skills/init/SKILL.md",
+      "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-authoring",
+      "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-patterns"
     ],
     "prompts": ["./prompts"],
     "themes": ["./themes"]
