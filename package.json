@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -75,7 +75,11 @@
       "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-authoring",
       "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-patterns"
     ],
-    "prompts": ["./prompts"],
-    "themes": ["./themes"]
+    "prompts": [
+      "./prompts"
+    ],
+    "themes": [
+      "./themes"
+    ]
   }
 }
