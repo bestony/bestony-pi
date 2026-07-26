@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       force_publish:
-        description: "Bump patch and publish even if dependencies are unchanged (schedule/manual only)"
+        description: "Bump patch and publish when direct dependencies are unchanged"
         required: false
         default: false
         type: boolean
@@ -50,19 +50,72 @@ jobs:
       - name: Install current dependencies
         run: npm ci
 
-      - name: Update dependencies to latest
-        # Only for daily schedule / manual dispatch — not on every push
+      - name: Detect direct dependency updates
+        id: dependency-updates
+        # Only scheduled and manual runs update dependencies — never main pushes.
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          set -euo pipefail
+          UPDATES_FILE="$(mktemp)"
+          trap 'rm -f "$UPDATES_FILE"' EXIT
+
+          npx npm-check-updates --jsonUpgraded > "$UPDATES_FILE"
+
+          node - "$UPDATES_FILE" <<'NODE'
+          const fs = require("node:fs");
+
+          const updatesFile = process.argv[2];
+          const raw = fs.readFileSync(updatesFile, "utf8").trim();
+          let upgrades;
+
+          try {
+            upgrades = JSON.parse(raw);
+          } catch (error) {
+            throw new Error(
+              `npm-check-updates did not return valid JSON: ${error.message}`,
+            );
+          }
+
+          if (
+            upgrades === null ||
+            Array.isArray(upgrades) ||
+            typeof upgrades !== "object"
+          ) {
+            throw new Error("npm-check-updates output must be a JSON object.");
+          }
+
+          const updateCount = Object.keys(upgrades).length;
+          const hasDirectDependencyUpdates = updateCount > 0;
+
+          fs.appendFileSync(
+            process.env.GITHUB_OUTPUT,
+            `has_direct_dependency_updates=${hasDirectDependencyUpdates}\n`,
+          );
+          console.log(`Direct dependency updates detected: ${updateCount}.`);
+          NODE
+
+      - name: Apply direct dependency updates
+        if: steps.dependency-updates.outputs.has_direct_dependency_updates == 'true'
         run: |
           set -euo pipefail
           npx npm-check-updates -u
           npm install
+
+      - name: Verify dependency update changed package files
+        if: steps.dependency-updates.outputs.has_direct_dependency_updates == 'true'
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "npm-check-updates detected direct dependency updates, but package.json and package-lock.json did not change after applying them." >&2
+            exit 1
+          fi
 
       - name: Decide whether to release
         id: decide
         env:
           EVENT_NAME: ${{ github.event_name }}
           FORCE_PUBLISH: ${{ inputs.force_publish }}
+          HAS_DIRECT_DEPENDENCY_UPDATES: ${{ steps.dependency-updates.outputs.has_direct_dependency_updates || 'false' }}
         run: |
           set -euo pipefail
           SHOULD_RELEASE=false
@@ -70,16 +123,15 @@ jobs:
           if [ "$EVENT_NAME" = "push" ]; then
             SHOULD_RELEASE=true
             echo "Push to main: always attempt publish."
-          elif [ "${FORCE_PUBLISH:-false}" = "true" ]; then
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "${FORCE_PUBLISH:-false}" = "true" ]; then
             SHOULD_RELEASE=true
             echo "Force publish requested."
           elif [ "$EVENT_NAME" = "schedule" ] || [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            if git diff --quiet -- package.json package-lock.json; then
-              echo "No dependency updates; skip release."
-            else
+            if [ "${HAS_DIRECT_DEPENDENCY_UPDATES:-false}" = "true" ]; then
               SHOULD_RELEASE=true
-              echo "Dependency files changed."
-              git diff --stat -- package.json package-lock.json
+              echo "Direct dependency updates detected; release will proceed."
+            else
+              echo "No direct dependency updates; skip release."
             fi
           fi
 
