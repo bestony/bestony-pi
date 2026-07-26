@@ -1,0 +1,93 @@
+name: Daily dependency update & release
+
+on:
+  schedule:
+    # 16:00 UTC = 00:00 Asia/Shanghai (China has no DST)
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+    inputs:
+      force_publish:
+        description: "Bump patch and publish even if dependencies are unchanged"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: daily-release
+  cancel-in-progress: false
+
+jobs:
+  update-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Ensure modern npm (Trusted Publisher requires >= 11.5.1)
+        run: npm install -g npm@latest
+
+      - name: Install current dependencies
+        run: npm ci
+
+      - name: Update dependencies to latest
+        run: |
+          npx npm-check-updates -u
+          npm install
+
+      - name: Detect dependency changes
+        id: changes
+        env:
+          FORCE_PUBLISH: ${{ inputs.force_publish }}
+        run: |
+          set -euo pipefail
+          if [ "${FORCE_PUBLISH:-false}" = "true" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Force publish requested."
+          elif git diff --quiet -- package.json package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No dependency updates."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Dependency files changed."
+            git diff --stat -- package.json package-lock.json
+          fi
+
+      - name: Configure git
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump patch version (single commit)
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          npm version patch --no-git-tag-version
+          VERSION="$(node -p "require('./package.json').version")"
+          git add package.json package-lock.json
+          git commit -m "chore(release): ${VERSION}"
+          git tag "v${VERSION}"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          echo "Prepared release v${VERSION}"
+
+      - name: Publish to npm (OIDC Trusted Publisher)
+        if: steps.changes.outputs.changed == 'true'
+        run: npm publish --access public
+
+      - name: Push commit and tags
+        if: steps.changes.outputs.changed == 'true'
+        run: git push origin "HEAD:${{ github.ref_name }}" --follow-tags

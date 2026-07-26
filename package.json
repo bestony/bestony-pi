@@ -30,6 +30,10 @@
     "url": "https://github.com/bestony/bestony-pi/issues"
   },
   "homepage": "https://github.com/bestony/bestony-pi#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "dependencies": {
     "@quintinshaw/pi-dynamic-workflows": "^3.4.1",
     "@tintinweb/pi-tasks": "^0.7.2",

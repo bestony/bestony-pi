@@ -119,6 +119,26 @@ pi install .
 
 它们声明在 `dependencies` + `bundledDependencies` 中，资源通过 `pi.extensions` / `pi.skills` 的 `node_modules/...` 路径引用。
 
+## 自动发布
+
+仓库通过 GitHub Actions 每日 **北京时间 0:00**（`cron: 0 16 * * *` UTC）检查依赖更新：
+
+1. 使用 `npm-check-updates` 将依赖升到最新并刷新 lockfile
+2. 若有变更：patch 升版、打 `vX.Y.Z` tag、发布到 npm
+3. 若无变更：成功退出且不发版
+
+发布使用 [npm Trusted Publisher](https://docs.npmjs.com/trusted-publishers)（OIDC），**无需**在仓库中配置 `NPM_TOKEN`。
+
+手动触发：
+
+1. GitHub → **Actions** → **Daily dependency update & release** → **Run workflow**
+2. 可选勾选 `force_publish`（即使依赖无变化也 patch 发一版，便于验证 OIDC）
+
+首次启用前请确认：
+
+- npm 包 Settings → Trusted Publisher 指向 `bestony` / `bestony-pi` / `daily-release.yml`
+- 仓库 Settings → Actions → Workflow permissions 为 **Read and write**
+
 ## 当前本地资源
 
 | 类型 | 状态 |
