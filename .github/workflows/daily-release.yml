@@ -1,13 +1,15 @@
-name: Daily dependency update & release
+name: Release
 
 on:
   schedule:
     # 16:00 UTC = 00:00 Asia/Shanghai (China has no DST)
     - cron: "0 16 * * *"
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       force_publish:
-        description: "Bump patch and publish even if dependencies are unchanged"
+        description: "Bump patch and publish even if dependencies are unchanged (schedule/manual only)"
         required: false
         default: false
         type: boolean
@@ -22,6 +24,11 @@ concurrency:
 
 jobs:
   update-and-publish:
+    # Avoid loop: bot release commits re-triggering push workflow
+    if: >
+      github.event_name != 'push' ||
+      (github.actor != 'github-actions[bot]' &&
+       !startsWith(github.event.head_commit.message, 'chore(release):'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -44,50 +51,105 @@ jobs:
         run: npm ci
 
       - name: Update dependencies to latest
+        # Only for daily schedule / manual dispatch — not on every push
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
+          set -euo pipefail
           npx npm-check-updates -u
           npm install
 
-      - name: Detect dependency changes
-        id: changes
+      - name: Decide whether to release
+        id: decide
         env:
+          EVENT_NAME: ${{ github.event_name }}
           FORCE_PUBLISH: ${{ inputs.force_publish }}
         run: |
           set -euo pipefail
-          if [ "${FORCE_PUBLISH:-false}" = "true" ]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+          SHOULD_RELEASE=false
+
+          if [ "$EVENT_NAME" = "push" ]; then
+            SHOULD_RELEASE=true
+            echo "Push to main: always attempt publish."
+          elif [ "${FORCE_PUBLISH:-false}" = "true" ]; then
+            SHOULD_RELEASE=true
             echo "Force publish requested."
-          elif git diff --quiet -- package.json package-lock.json; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No dependency updates."
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "Dependency files changed."
-            git diff --stat -- package.json package-lock.json
+          elif [ "$EVENT_NAME" = "schedule" ] || [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if git diff --quiet -- package.json package-lock.json; then
+              echo "No dependency updates; skip release."
+            else
+              SHOULD_RELEASE=true
+              echo "Dependency files changed."
+              git diff --stat -- package.json package-lock.json
+            fi
           fi
 
+          echo "should_release=${SHOULD_RELEASE}" >> "$GITHUB_OUTPUT"
+
       - name: Configure git
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.decide.outputs.should_release == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Bump patch version (single commit)
-        if: steps.changes.outputs.changed == 'true'
+      - name: Ensure unpublished version, commit, and tag
+        if: steps.decide.outputs.should_release == 'true'
+        id: version
         run: |
           set -euo pipefail
-          npm version patch --no-git-tag-version
+          PACKAGE_NAME="$(node -p "require('./package.json').name")"
+          CURRENT="$(node -p "require('./package.json').version")"
+          CREATED_COMMIT=false
+          CREATED_TAG=false
+
+          if npm view "${PACKAGE_NAME}@${CURRENT}" version >/dev/null 2>&1; then
+            echo "Version ${CURRENT} already on npm; bumping patch."
+            npm version patch --no-git-tag-version
+          else
+            echo "Version ${CURRENT} is not on npm; will publish as-is."
+          fi
+
           VERSION="$(node -p "require('./package.json').version")"
-          git add package.json package-lock.json
-          git commit -m "chore(release): ${VERSION}"
-          git tag "v${VERSION}"
+
+          # Commit dependency bumps and/or version bump if working tree dirty
+          if ! git diff --quiet -- package.json package-lock.json; then
+            git add package.json package-lock.json
+            git commit -m "chore(release): ${VERSION}"
+            CREATED_COMMIT=true
+            echo "Created release commit for ${VERSION}."
+          else
+            echo "No file changes to commit (version already set in tree)."
+          fi
+
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists."
+          else
+            git tag "v${VERSION}"
+            CREATED_TAG=true
+            echo "Created tag v${VERSION}."
+          fi
+
           echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
-          echo "Prepared release v${VERSION}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "created_commit=${CREATED_COMMIT}" >> "$GITHUB_OUTPUT"
+          echo "created_tag=${CREATED_TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Publish to npm (OIDC Trusted Publisher)
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.decide.outputs.should_release == 'true'
         run: npm publish --access public
 
-      - name: Push commit and tags
-        if: steps.changes.outputs.changed == 'true'
-        run: git push origin "HEAD:${{ github.ref_name }}" --follow-tags
+      - name: Push commit and/or tags
+        if: steps.decide.outputs.should_release == 'true'
+        env:
+          CREATED_COMMIT: ${{ steps.version.outputs.created_commit }}
+          CREATED_TAG: ${{ steps.version.outputs.created_tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ github.ref_name }}"
+          if [ "$CREATED_COMMIT" = "true" ]; then
+            git push origin "HEAD:${BRANCH}" --follow-tags
+          elif [ "$CREATED_TAG" = "true" ]; then
+            git push origin "v${VERSION}"
+          else
+            echo "Nothing new to push (commit/tag already on remote)."
+          fi
