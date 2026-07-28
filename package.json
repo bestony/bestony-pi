@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -42,7 +42,7 @@
     "pi-init": "^1.0.0",
     "pi-mcp-adapter": "^2.15.0",
     "pi-session-name": "^0.1.2",
-    "pi-web-access": "^0.14.0",
+    "pi-web-access": "^0.15.0",
     "pi-xai": "^0.17.1"
   },
   "bundledDependencies": [
