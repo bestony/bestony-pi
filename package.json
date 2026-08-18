@@ -35,7 +35,9 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
+    "@dietrichgebert/ponytail": "^4.9.0",
     "@lanlance/pi-recap": "^0.3.0",
+    "@narumitw/pi-goal": "^0.52.0",
     "@quintinshaw/pi-dynamic-workflows": "^3.6.0",
     "@tintinweb/pi-tasks": "^0.8.0",
     "@tintinweb/pi-subagents": "^0.16.1",
@@ -44,10 +46,12 @@
     "pi-mcp-adapter": "^2.26.0",
     "pi-session-name": "^0.1.2",
     "pi-web-access": "^0.23.0",
-    "pi-xai": "^0.18.0"
+    "pi-xai-oauth": "^1.5.0"
   },
   "bundledDependencies": [
+    "@dietrichgebert/ponytail",
     "@lanlance/pi-recap",
+    "@narumitw/pi-goal",
     "@quintinshaw/pi-dynamic-workflows",
     "@tintinweb/pi-tasks",
     "@tintinweb/pi-subagents",
@@ -56,14 +60,16 @@
     "pi-mcp-adapter",
     "pi-session-name",
     "pi-web-access",
-    "pi-xai"
+    "pi-xai-oauth"
   ],
   "pi": {
     "extensions": [
       "./extensions",
+      "node_modules/@dietrichgebert/ponytail/pi-extension/index.js",
       "node_modules/@lanlance/pi-recap/extensions/recap.ts",
+      "node_modules/@narumitw/pi-goal/src/index.ts",
       "node_modules/pi-web-access/index.ts",
-      "node_modules/pi-xai/index.ts",
+      "node_modules/pi-xai-oauth/extensions",
       "node_modules/pi-mcp-adapter/index.ts",
       "node_modules/pi-cache-optimizer/index.ts",
       "node_modules/pi-session-name/src/index.ts",
@@ -73,6 +79,7 @@
     ],
     "skills": [
       "./skills",
+      "node_modules/@dietrichgebert/ponytail/skills",
       "node_modules/pi-web-access/skills",
       "node_modules/pi-init/skills/init/SKILL.md",
       "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-authoring",
