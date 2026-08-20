@@ -42,7 +42,6 @@ jobs:
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
-          package-manager-cache: false
 
       - name: Ensure modern npm (Trusted Publisher requires >= 11.5.1)
         run: npm install -g npm@latest
@@ -172,18 +171,51 @@ jobs:
             echo "No file changes to commit (version already set in tree)."
           fi
 
-          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
-            echo "Tag v${VERSION} already exists."
+          RELEASE_COMMIT="$(git rev-parse HEAD)"
+          TAG="v${VERSION}"
+
+          # Resolve the comparison point before creating the current tag. A
+          # reachable version tag is preferred; older repositories without
+          # tags fall back to the previous release commit.
+          BASE_REF=""
+          if BASE_REF="$(git describe --tags --match 'v[0-9]*' --abbrev=0 "${RELEASE_COMMIT}^" 2>/dev/null)"; then
+            echo "Using previous version tag ${BASE_REF} as the release base."
           else
-            git tag "v${VERSION}"
-            CREATED_TAG=true
-            echo "Created tag v${VERSION}."
+            BASE_REF="$(git log --format='%H' --grep='^chore(release):' -n 1 "${RELEASE_COMMIT}^" 2>/dev/null || true)"
+            if [ -n "$BASE_REF" ]; then
+              echo "No previous version tag found; using release commit ${BASE_REF} as the base."
+            else
+              echo "No previous version tag or release commit found; notes will cover repository history."
+            fi
           fi
 
-          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
-          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "created_commit=${CREATED_COMMIT}" >> "$GITHUB_OUTPUT"
-          echo "created_tag=${CREATED_TAG}" >> "$GITHUB_OUTPUT"
+          if git show-ref --verify --quiet "refs/tags/${TAG}"; then
+            EXISTING_TAG_COMMIT="$(git rev-parse "${TAG}^{commit}")"
+            if [ "$EXISTING_TAG_COMMIT" != "$RELEASE_COMMIT" ]; then
+              echo "Tag ${TAG} already points to ${EXISTING_TAG_COMMIT}, expected ${RELEASE_COMMIT}." >&2
+              exit 1
+            fi
+            echo "Tag ${TAG} already exists on the release commit."
+          else
+            git tag --annotate "$TAG" --message "Release ${TAG}" "$RELEASE_COMMIT"
+            CREATED_TAG=true
+            echo "Created annotated tag ${TAG}."
+          fi
+
+          {
+            echo "VERSION=${VERSION}"
+            echo "TAG=${TAG}"
+            echo "RELEASE_COMMIT=${RELEASE_COMMIT}"
+            echo "BASE_REF=${BASE_REF}"
+          } >> "$GITHUB_ENV"
+          {
+            echo "version=${VERSION}"
+            echo "tag=${TAG}"
+            echo "base_ref=${BASE_REF}"
+            echo "release_commit=${RELEASE_COMMIT}"
+            echo "created_commit=${CREATED_COMMIT}"
+            echo "created_tag=${CREATED_TAG}"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Publish to npm (OIDC Trusted Publisher)
         if: steps.decide.outputs.should_release == 'true'
@@ -194,14 +226,59 @@ jobs:
         env:
           CREATED_COMMIT: ${{ steps.version.outputs.created_commit }}
           CREATED_TAG: ${{ steps.version.outputs.created_tag }}
-          VERSION: ${{ steps.version.outputs.version }}
+          TAG: ${{ steps.version.outputs.tag }}
         run: |
           set -euo pipefail
-          BRANCH="${{ github.ref_name }}"
-          if [ "$CREATED_COMMIT" = "true" ]; then
-            git push origin "HEAD:${BRANCH}" --follow-tags
+          BRANCH="${GITHUB_REF_NAME:-main}"
+          if [ "$CREATED_COMMIT" = "true" ] && [ "$CREATED_TAG" = "true" ]; then
+            echo "Pushing release commit and ${TAG} atomically."
+            git push --atomic origin "HEAD:${BRANCH}" "refs/tags/${TAG}"
+          elif [ "$CREATED_COMMIT" = "true" ]; then
+            echo "Pushing release commit to ${BRANCH}."
+            git push origin "HEAD:${BRANCH}"
           elif [ "$CREATED_TAG" = "true" ]; then
-            git push origin "v${VERSION}"
+            echo "Pushing ${TAG}."
+            git push origin "refs/tags/${TAG}"
           else
             echo "Nothing new to push (commit/tag already on remote)."
+          fi
+
+      - name: Generate release notes
+        if: steps.decide.outputs.should_release == 'true'
+        id: release-notes
+        env:
+          BASE_REF: ${{ steps.version.outputs.base_ref }}
+          RELEASE_COMMIT: ${{ steps.version.outputs.release_commit }}
+          TAG: ${{ steps.version.outputs.tag }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          NOTES_FILE="${RUNNER_TEMP}/release-notes-${TAG}.md"
+          node .github/scripts/generate-release-notes.mjs \
+            --base-ref "$BASE_REF" \
+            --head-ref "$RELEASE_COMMIT" \
+            --tag "$TAG" \
+            --repository "$GITHUB_REPOSITORY" \
+            --output "$NOTES_FILE"
+          echo "notes_file=${NOTES_FILE}" >> "$GITHUB_OUTPUT"
+          echo "Generated release notes at ${NOTES_FILE}."
+
+      - name: Create GitHub Release
+        if: steps.decide.outputs.should_release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          TAG: ${{ steps.version.outputs.tag }}
+          NOTES_FILE: ${{ steps.release-notes.outputs.notes_file }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "GitHub Release ${TAG} already exists; skipping duplicate creation."
+          else
+            echo "Creating GitHub Release ${TAG}."
+            gh release create "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --verify-tag \
+              --title "$TAG" \
+              --notes-file "$NOTES_FILE"
           fi
