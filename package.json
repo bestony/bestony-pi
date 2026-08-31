@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -37,7 +37,7 @@
   "dependencies": {
     "@dietrichgebert/ponytail": "^4.9.0",
     "@lanlance/pi-recap": "^0.3.0",
-    "@narumitw/pi-goal": "^0.54.3",
+    "@narumitw/pi-goal": "^0.54.4",
     "@quintinshaw/pi-dynamic-workflows": "^3.10.0",
     "@tintinweb/pi-tasks": "^0.9.0",
     "@tintinweb/pi-subagents": "^0.19.0",
