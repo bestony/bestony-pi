@@ -39,14 +39,15 @@
     "@lanlance/pi-recap": "^0.3.0",
     "@narumitw/pi-goal": "^0.54.4",
     "@quintinshaw/pi-dynamic-workflows": "^3.10.1",
-    "@tintinweb/pi-tasks": "^0.9.0",
     "@tintinweb/pi-subagents": "^0.19.0",
+    "@tintinweb/pi-tasks": "^0.9.0",
     "pi-cache-optimizer": "^2.8.7",
     "pi-init": "^1.0.0",
     "pi-mcp-adapter": "^2.32.1",
     "pi-session-name": "^0.1.2",
     "pi-web-access": "^0.29.0",
-    "pi-xai-oauth": "^1.5.2"
+    "pi-xai-oauth": "^1.5.2",
+    "pi-zenmux": "^0.2.0"
   },
   "bundledDependencies": [
     "@dietrichgebert/ponytail",
@@ -91,5 +92,19 @@
     "themes": [
       "./themes"
     ]
-  }
+  },
+  "bundleDependencies": [
+    "@dietrichgebert/ponytail",
+    "@lanlance/pi-recap",
+    "@narumitw/pi-goal",
+    "@quintinshaw/pi-dynamic-workflows",
+    "@tintinweb/pi-tasks",
+    "@tintinweb/pi-subagents",
+    "pi-cache-optimizer",
+    "pi-init",
+    "pi-mcp-adapter",
+    "pi-session-name",
+    "pi-web-access",
+    "pi-xai-oauth"
+  ]
 }
