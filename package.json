@@ -37,17 +37,23 @@
   "dependencies": {
     "@dietrichgebert/ponytail": "^4.9.0",
     "@lanlance/pi-recap": "^0.3.0",
-    "@narumitw/pi-goal": "^0.54.4",
-    "@quintinshaw/pi-dynamic-workflows": "^3.10.1",
+    "@mariozechner/pi-ai": "npm:@earendil-works/pi-ai@^0.85.1",
+    "@mariozechner/pi-coding-agent": "npm:@earendil-works/pi-coding-agent@^0.84.3",
+    "@narumitw/pi-goal": "^0.54.5",
+    "@quintinshaw/pi-dynamic-workflows": "^3.11.0",
     "@tintinweb/pi-subagents": "^0.19.0",
     "@tintinweb/pi-tasks": "^0.9.0",
-    "pi-cache-optimizer": "^2.8.7",
+    "pi-cache-optimizer": "^2.8.10",
     "pi-init": "^1.0.0",
-    "pi-mcp-adapter": "^2.32.1",
+    "pi-mcp-adapter": "^2.33.0",
     "pi-session-name": "^0.1.2",
     "pi-web-access": "^0.29.0",
     "pi-xai-oauth": "^1.5.2",
-    "pi-zenmux": "^0.2.0"
+    "pi-zenmux": "^0.2.0",
+    "fast-uri": "3.1.7",
+    "ip-address": "10.7.0",
+    "qs": "6.16.0",
+    "smol-toml": "1.8.0"
   },
   "bundledDependencies": [
     "@dietrichgebert/ponytail",
