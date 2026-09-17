@@ -43,7 +43,7 @@
     "@quintinshaw/pi-dynamic-workflows": "^3.12.0",
     "@tintinweb/pi-subagents": "^0.19.0",
     "@tintinweb/pi-tasks": "^0.9.0",
-    "commandcode-go-for-pi": "github:gonegirl07/commandcode-go-for-pi",
+    "commandcode-go-for-pi": "github:gonegirl07/commandcode-go-for-pi#7f5166197d603728e423c78687726a3eb67aaf6f",
     "fast-uri": "4.1.5",
     "ip-address": "10.7.2",
     "pi-cache-optimizer": "^2.8.10",
