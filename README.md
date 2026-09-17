@@ -115,6 +115,7 @@ pi install .
 | [@lanlance/pi-recap](https://www.npmjs.com/package/@lanlance/pi-recap) | Claude Code-style session recap / status line above the Pi status bar |
 | [@dietrichgebert/ponytail](https://www.npmjs.com/package/@dietrichgebert/ponytail) | `pi-extension` + `skills` for status line and agent-mode tooling |
 | [@narumitw/pi-goal](https://www.npmjs.com/package/@narumitw/pi-goal) | Autonomous single-objective `/goal` completion extension |
+| [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
 | [pi-xai-oauth](https://www.npmjs.com/package/pi-xai-oauth) | xAI OAuth provider / authenticated Grok model catalog |
 | [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
 | [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
