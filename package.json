@@ -56,20 +56,6 @@
     "qs": "6.16.0",
     "smol-toml": "1.8.0"
   },
-  "bundledDependencies": [
-    "@dietrichgebert/ponytail",
-    "@lanlance/pi-recap",
-    "@narumitw/pi-goal",
-    "@quintinshaw/pi-dynamic-workflows",
-    "@tintinweb/pi-tasks",
-    "@tintinweb/pi-subagents",
-    "pi-cache-optimizer",
-    "pi-init",
-    "pi-mcp-adapter",
-    "pi-session-name",
-    "pi-web-access",
-    "pi-xai-oauth"
-  ],
   "pi": {
     "extensions": [
       "./extensions",
