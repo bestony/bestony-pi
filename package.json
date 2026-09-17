@@ -43,6 +43,9 @@
     "@quintinshaw/pi-dynamic-workflows": "^3.12.0",
     "@tintinweb/pi-subagents": "^0.19.0",
     "@tintinweb/pi-tasks": "^0.9.0",
+    "commandcode-go-for-pi": "github:gonegirl07/commandcode-go-for-pi",
+    "fast-uri": "4.1.5",
+    "ip-address": "10.7.2",
     "pi-cache-optimizer": "^2.8.10",
     "pi-init": "^1.0.0",
     "pi-mcp-adapter": "^2.34.0",
@@ -50,8 +53,6 @@
     "pi-web-access": "^0.29.0",
     "pi-xai-oauth": "^1.5.2",
     "pi-zenmux": "^0.2.0",
-    "fast-uri": "4.1.5",
-    "ip-address": "10.7.2",
     "qs": "6.16.0",
     "smol-toml": "1.8.0"
   },
@@ -82,7 +83,8 @@
       "node_modules/pi-session-name/src/index.ts",
       "node_modules/@tintinweb/pi-tasks/src/index.ts",
       "node_modules/@tintinweb/pi-subagents/src/index.ts",
-      "node_modules/@quintinshaw/pi-dynamic-workflows/extensions/workflow.ts"
+      "node_modules/@quintinshaw/pi-dynamic-workflows/extensions/workflow.ts",
+      "node_modules/commandcode-go-for-pi/index.ts"
     ],
     "skills": [
       "./skills",
@@ -104,8 +106,9 @@
     "@lanlance/pi-recap",
     "@narumitw/pi-goal",
     "@quintinshaw/pi-dynamic-workflows",
-    "@tintinweb/pi-tasks",
     "@tintinweb/pi-subagents",
+    "@tintinweb/pi-tasks",
+    "commandcode-go-for-pi",
     "pi-cache-optimizer",
     "pi-init",
     "pi-mcp-adapter",
