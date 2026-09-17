@@ -47,7 +47,8 @@ jobs:
         run: npm install -g npm@latest
 
       - name: Install current dependencies
-        run: npm ci
+        # npm 12 defaults allow-git to "none"; commandcode-go-for-pi is a root git dependency.
+        run: npm ci --allow-git=root
 
       - name: Detect direct dependency updates
         id: dependency-updates
