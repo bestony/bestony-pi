@@ -126,6 +126,7 @@ pi install .
 | [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
 | [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
 | [commandcode-go-for-pi](https://github.com/gonegirl07/commandcode-go-for-pi) | Command Code Go/GOAT provider（`commandcode` 模型目录、reasoning 控制、`/cc-usage` 用量查询） |
+| [pi-dsml](https://www.npmjs.com/package/pi-dsml) | 把 DeepSeek 以纯文本返回的 DSML tool call 还原为真实 tool call 并执行 |
 
 它们声明在 `dependencies` + `bundledDependencies` 中，资源通过 `pi.extensions` / `pi.skills` 的 `node_modules/...` 路径引用。
 
