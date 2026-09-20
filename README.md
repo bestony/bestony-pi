@@ -9,15 +9,11 @@ Bestony 的 [Pi](https://pi.dev) coding agent preset。
 ## 安装
 
 ```bash
-# 从本地路径安装（开发中）
-pi install /absolute/path/to/bestony-pi
-pi install ./relative/path/to/bestony-pi
-
-# 从 git 安装（发布后）
+# 从 git 安装
 pi install git:github.com/bestony/bestony-pi
 pi install https://github.com/bestony/bestony-pi
 
-# 从 npm 安装（发布后）
+# 从 npm 安装
 pi install npm:bestony-pi-preset
 ```
 
@@ -31,7 +27,7 @@ pi -e git:github.com/bestony/bestony-pi
 安装到项目级（写入 `.pi/settings.json`，可团队共享）：
 
 ```bash
-pi install -l /path/to/bestony-pi
+pi install -l npm:bestony-pi-preset
 ```
 
 ## 卸载 / 管理
@@ -42,6 +38,33 @@ pi list
 pi update --extensions
 pi config                         # 启用/禁用具体资源
 ```
+
+
+## 内置依赖（bundled pi packages）
+
+安装本 preset 时会一并带上下列 Pi 包，并自动加载其 extensions / skills：
+
+| 包 | 提供 |
+|----|------|
+| [pi-web-access](https://www.npmjs.com/package/pi-web-access) | Web 搜索 / URL 抓取 / GitHub / YouTube 等扩展 + librarian skill |
+| [pi-init](https://www.npmjs.com/package/pi-init) | `init` skill（生成/更新 AGENTS.md） |
+| [pi-mcp-adapter](https://www.npmjs.com/package/pi-mcp-adapter) | MCP 协议适配扩展 |
+| [pi-cache-optimizer](https://www.npmjs.com/package/pi-cache-optimizer) | Prompt/KV cache 命中优化 |
+| [pi-session-name](https://www.npmjs.com/package/pi-session-name) | 自动生成会话标题并同步终端标题状态 |
+| [@lanlance/pi-recap](https://www.npmjs.com/package/@lanlance/pi-recap) | Claude Code-style session recap / status line above the Pi status bar |
+| [@mohndoe/pi-atlas](https://www.npmjs.com/package/@mohndoe/pi-atlas) | 在 Pi 内查看 agent 用量与花费（cost / 语言 / 模型 / 项目 / 工具，数据来自 session 日志） |
+| [@dietrichgebert/ponytail](https://www.npmjs.com/package/@dietrichgebert/ponytail) | `pi-extension` + `skills` for status line and agent-mode tooling |
+| [@narumitw/pi-goal](https://www.npmjs.com/package/@narumitw/pi-goal) | Autonomous single-objective `/goal` completion extension |
+| [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
+| [pi-xai-oauth](https://www.npmjs.com/package/pi-xai-oauth) | xAI OAuth provider / authenticated Grok model catalog |
+| [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
+| [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
+| [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
+| [commandcode-go-for-pi](https://github.com/gonegirl07/commandcode-go-for-pi) | Command Code Go/GOAT provider（`commandcode` 模型目录、reasoning 控制、`/cc-usage` 用量查询） |
+| [pi-dsml](https://www.npmjs.com/package/pi-dsml) | 把 DeepSeek 以纯文本返回的 DSML tool call 还原为真实 tool call 并执行 |
+
+它们声明在 `dependencies` + `bundledDependencies` 中，资源通过 `pi.extensions` / `pi.skills` 的 `node_modules/...` 路径引用。
+
 
 ## 包结构
 
@@ -105,31 +128,6 @@ pi install .
   仓库根目录 `.npmrc` 因此设置 `force=true`，让 `npm ci` 容忍这类冲突但不丢弃 peer 树。
   不要改用 `legacy-peer-deps`（会从 lock 中移除整个 `@earendil-works/*` peer 子树）。
 
-## 内置依赖（bundled pi packages）
-
-安装本 preset 时会一并带上下列 Pi 包，并自动加载其 extensions / skills：
-
-| 包 | 提供 |
-|----|------|
-| [pi-web-access](https://www.npmjs.com/package/pi-web-access) | Web 搜索 / URL 抓取 / GitHub / YouTube 等扩展 + librarian skill |
-| [pi-init](https://www.npmjs.com/package/pi-init) | `init` skill（生成/更新 AGENTS.md） |
-| [pi-mcp-adapter](https://www.npmjs.com/package/pi-mcp-adapter) | MCP 协议适配扩展 |
-| [pi-cache-optimizer](https://www.npmjs.com/package/pi-cache-optimizer) | Prompt/KV cache 命中优化 |
-| [pi-session-name](https://www.npmjs.com/package/pi-session-name) | 自动生成会话标题并同步终端标题状态 |
-| [@lanlance/pi-recap](https://www.npmjs.com/package/@lanlance/pi-recap) | Claude Code-style session recap / status line above the Pi status bar |
-| [@mohndoe/pi-atlas](https://www.npmjs.com/package/@mohndoe/pi-atlas) | 在 Pi 内查看 agent 用量与花费（cost / 语言 / 模型 / 项目 / 工具，数据来自 session 日志） |
-| [@dietrichgebert/ponytail](https://www.npmjs.com/package/@dietrichgebert/ponytail) | `pi-extension` + `skills` for status line and agent-mode tooling |
-| [@narumitw/pi-goal](https://www.npmjs.com/package/@narumitw/pi-goal) | Autonomous single-objective `/goal` completion extension |
-| [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
-| [pi-xai-oauth](https://www.npmjs.com/package/pi-xai-oauth) | xAI OAuth provider / authenticated Grok model catalog |
-| [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
-| [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
-| [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
-| [commandcode-go-for-pi](https://github.com/gonegirl07/commandcode-go-for-pi) | Command Code Go/GOAT provider（`commandcode` 模型目录、reasoning 控制、`/cc-usage` 用量查询） |
-| [pi-dsml](https://www.npmjs.com/package/pi-dsml) | 把 DeepSeek 以纯文本返回的 DSML tool call 还原为真实 tool call 并执行 |
-
-它们声明在 `dependencies` + `bundledDependencies` 中，资源通过 `pi.extensions` / `pi.skills` 的 `node_modules/...` 路径引用。
-
 ## 自动发布
 
 发布使用 [npm Trusted Publisher](https://docs.npmjs.com/trusted-publishers)（OIDC），**无需**在仓库中配置 `NPM_TOKEN`。Workflow 文件：`.github/workflows/daily-release.yml`。
@@ -159,38 +157,6 @@ Bot 自己的 `chore(release):` 提交不会再次触发发布，避免循环。
 - npm 包 Settings → Trusted Publisher 指向 `bestony` / `bestony-pi` / `daily-release.yml`
 - 仓库 Settings → Actions → Workflow permissions 为 **Read and write**
 
-### GitHub Releases and release notes
-
-After `npm publish` succeeds, the workflow pushes the release commit and its
-annotated `vX.Y.Z` tag before creating the matching GitHub Release. When both
-objects are new, the branch ref and explicit tag ref are pushed atomically so a
-release cannot be published with only one of them on the remote. The tag
-annotation is `Release vX.Y.Z`.
-
-The release body is generated by
-`.github/scripts/generate-release-notes.mjs`. It compares the previous
-reachable version tag with the release commit (or the previous
-`chore(release):` commit when tags are not available), filters version-only
-release commits, and groups Conventional Commits into Features, Fixes,
-Performance, Documentation, and Maintenance. Direct dependency additions,
-removals, and range changes are listed separately with npm package links.
-Every listed commit links to GitHub, and the body ends with a Full Changelog
-comparison link. A forced release with no commits or direct dependency changes
-states `Maintenance release with no user-facing changes.`
-
-If a release with the same tag already exists, the workflow logs the condition
-and skips creation; any other `gh release create` failure fails the workflow.
-Published releases are visible at
-[GitHub Releases](https://github.com/bestony/bestony-pi/releases).
-
-## 当前本地资源
-
-| 类型 | 状态 |
-|------|------|
-| Extensions | 待添加（`./extensions`） |
-| Skills | 待添加（`./skills`） |
-| Prompts | 待添加（`./prompts`） |
-| Themes | 待添加（`./themes`） |
 
 ## License
 
