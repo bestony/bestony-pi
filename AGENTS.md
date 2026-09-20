@@ -72,6 +72,12 @@ built-in `node:test`. Release automation is GitHub Actions + npm Trusted Publish
 *   Bundle a new Pi package by adding it to `dependencies` **and** `bundledDependencies`, then
     pointing `pi.extensions` / `pi.skills` at its `node_modules/...` path. Pi core packages
     (`@earendil-works/pi-*`, `typebox`) belong in `peerDependencies` as `"*"` and stay unbundled.
+*   `.npmrc` sets `force=true` because bundled Pi packages sometimes pin **stale** peer ranges on
+    Pi core packages the runtime provides (e.g. `@mohndoe/pi-atlas` wants `@earendil-works/pi-tui`
+    `>=0.74.0 <0.77.0` while this preset tracks 0.84.x). `force` tolerates the conflict and still
+    installs the peer tree. Do **not** switch to `legacy-peer-deps`: it drops the entire
+    `@earendil-works/*` peer subtree from the lock (~1000 entries) and trips `EALLOWGIT` during
+    re-resolution. `npm overrides` cannot express this — it does not apply to peer ranges.
 *   Release-note text is Markdown-escaped on purpose (`escapeMarkdown` / `escapeCode`) — commit
     subjects are attacker-influenced input into `gh release create`.
 *   Repo uses a `.gitlock` file as a commit lock: create it before committing, delete it after; if

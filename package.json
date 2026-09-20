@@ -39,6 +39,7 @@
     "@lanlance/pi-recap": "^0.3.0",
     "@mariozechner/pi-ai": "npm:@earendil-works/pi-ai@^0.85.1",
     "@mariozechner/pi-coding-agent": "npm:@earendil-works/pi-coding-agent@^0.85.1",
+    "@mohndoe/pi-atlas": "^0.2.1",
     "@narumitw/pi-goal": "^0.54.6",
     "@narumitw/pi-plan-mode": "^0.58.0",
     "@quintinshaw/pi-dynamic-workflows": "^3.12.0",
@@ -72,7 +73,8 @@
       "node_modules/@tintinweb/pi-tasks/src/index.ts",
       "node_modules/@tintinweb/pi-subagents/src/index.ts",
       "node_modules/@quintinshaw/pi-dynamic-workflows/extensions/workflow.ts",
-      "node_modules/commandcode-go-for-pi/index.ts"
+      "node_modules/commandcode-go-for-pi/index.ts",
+      "node_modules/@mohndoe/pi-atlas/src/index.ts"
     ],
     "skills": [
       "./skills",
@@ -92,6 +94,7 @@
   "bundleDependencies": [
     "@dietrichgebert/ponytail",
     "@lanlance/pi-recap",
+    "@mohndoe/pi-atlas",
     "@narumitw/pi-goal",
     "@narumitw/pi-plan-mode",
     "@quintinshaw/pi-dynamic-workflows",

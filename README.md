@@ -100,6 +100,10 @@ pi install .
   - `@earendil-works/pi-coding-agent`
   - `@earendil-works/pi-tui`
   - `typebox`
+- 部分第三方包对 Pi 核心包的 peer range 已过期（如 `@mohndoe/pi-atlas` 要求
+  `@earendil-works/pi-tui >=0.74.0 <0.77.0`，而本 preset 跟随 Pi 运行时 0.84.x）。
+  仓库根目录 `.npmrc` 因此设置 `force=true`，让 `npm ci` 容忍这类冲突但不丢弃 peer 树。
+  不要改用 `legacy-peer-deps`（会从 lock 中移除整个 `@earendil-works/*` peer 子树）。
 
 ## 内置依赖（bundled pi packages）
 
@@ -113,6 +117,7 @@ pi install .
 | [pi-cache-optimizer](https://www.npmjs.com/package/pi-cache-optimizer) | Prompt/KV cache 命中优化 |
 | [pi-session-name](https://www.npmjs.com/package/pi-session-name) | 自动生成会话标题并同步终端标题状态 |
 | [@lanlance/pi-recap](https://www.npmjs.com/package/@lanlance/pi-recap) | Claude Code-style session recap / status line above the Pi status bar |
+| [@mohndoe/pi-atlas](https://www.npmjs.com/package/@mohndoe/pi-atlas) | 在 Pi 内查看 agent 用量与花费（cost / 语言 / 模型 / 项目 / 工具，数据来自 session 日志） |
 | [@dietrichgebert/ponytail](https://www.npmjs.com/package/@dietrichgebert/ponytail) | `pi-extension` + `skills` for status line and agent-mode tooling |
 | [@narumitw/pi-goal](https://www.npmjs.com/package/@narumitw/pi-goal) | Autonomous single-objective `/goal` completion extension |
 | [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
