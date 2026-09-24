@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.64",
+  "version": "0.0.65",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -48,7 +48,7 @@
     "commandcode-go-for-pi": "github:gonegirl07/commandcode-go-for-pi",
     "fast-uri": "4.2.1",
     "ip-address": "10.7.2",
-    "pi-cache-optimizer": "^2.8.10",
+    "pi-cache-optimizer": "^2.8.11",
     "pi-dsml": "^0.0.1",
     "pi-init": "^1.0.0",
     "pi-mcp-adapter": "^2.37.0",
