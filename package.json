@@ -48,6 +48,7 @@
     "commandcode-go-for-pi": "github:gonegirl07/commandcode-go-for-pi",
     "fast-uri": "4.2.1",
     "ip-address": "10.7.2",
+    "pi-antigravity": "^0.8.0",
     "pi-cache-optimizer": "^2.8.11",
     "pi-dsml": "^0.0.1",
     "pi-init": "^1.0.0",
@@ -76,7 +77,8 @@
       "node_modules/@quintinshaw/pi-dynamic-workflows/extensions/workflow.ts",
       "node_modules/commandcode-go-for-pi/index.ts",
       "node_modules/@mohndoe/pi-atlas/src/index.ts",
-      "node_modules/pi-dsml/extensions/index.ts"
+      "node_modules/pi-dsml/extensions/index.ts",
+      "node_modules/pi-antigravity/src/index.ts"
     ],
     "skills": [
       "./skills",
@@ -103,6 +105,7 @@
     "@tintinweb/pi-subagents",
     "@tintinweb/pi-tasks",
     "commandcode-go-for-pi",
+    "pi-antigravity",
     "pi-cache-optimizer",
     "pi-dsml",
     "pi-init",
