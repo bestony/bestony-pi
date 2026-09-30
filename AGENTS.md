@@ -27,15 +27,12 @@ built-in `node:test`. Release automation is GitHub Actions + npm Trusted Publish
 
 | Action           | Command |
 |------------------|---------|
-| Install          | `npm ci --allow-git=root` |
+| Install          | `npm ci` |
 | Test             | `node --test` |
 | Build            | none (nothing is compiled) |
 | Load locally     | `pi -e .` (session only) or `pi install .` |
 | Inspect manifest | `pi config` |
 | Generate notes   | `node .github/scripts/generate-release-notes.mjs --base-ref <ref> --head-ref <ref> --tag <tag> --repository owner/repo --output -` |
-
-`--allow-git=root` is required: npm 12 defaults `allow-git` to `none`, and
-`commandcode-go-for-pi` is a root git dependency.
 
 ## CODING STANDARDS
 

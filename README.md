@@ -55,13 +55,9 @@ pi config                         # 启用/禁用具体资源
 | [@dietrichgebert/ponytail](https://www.npmjs.com/package/@dietrichgebert/ponytail) | `pi-extension` + `skills` for status line and agent-mode tooling |
 | [@narumitw/pi-goal](https://www.npmjs.com/package/@narumitw/pi-goal) | Autonomous single-objective `/goal` completion extension |
 | [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
-| [pi-xai-oauth](https://www.npmjs.com/package/pi-xai-oauth) | xAI OAuth provider / authenticated Grok model catalog |
 | [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
-| [@tintinweb/pi-tasks](https://www.npmjs.com/package/@tintinweb/pi-tasks) | Claude Code-style task tracking and coordination |
 | [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
-| [commandcode-go-for-pi](https://github.com/gonegirl07/commandcode-go-for-pi) | Command Code Go/GOAT provider（`commandcode` 模型目录、reasoning 控制、`/cc-usage` 用量查询） |
 | [pi-dsml](https://www.npmjs.com/package/pi-dsml) | 把 DeepSeek 以纯文本返回的 DSML tool call 还原为真实 tool call 并执行 |
-| [pi-antigravity](https://www.npmjs.com/package/pi-antigravity) | Antigravity / Google Cloud Code Assist provider 与 OAuth |
 | [statusline-pi](https://www.npmjs.com/package/statusline-pi) | 紧凑型底部状态栏扩展（目录、git 分支变更、上下文剩余、响应速度、模型与 PR 编号） |
 
 它们声明在 `dependencies` + `bundledDependencies` 中，资源通过 `pi.extensions` / `pi.skills` 的 `node_modules/...` 路径引用。
