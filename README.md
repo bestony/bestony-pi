@@ -48,7 +48,6 @@ pi config                         # 启用/禁用具体资源
 |----|------|
 | [pi-web-access](https://www.npmjs.com/package/pi-web-access) | Web 搜索 / URL 抓取 / GitHub / YouTube 等扩展 + librarian skill |
 | [pi-init](https://www.npmjs.com/package/pi-init) | `init` skill（生成/更新 AGENTS.md） |
-| [pi-mcp-adapter](https://www.npmjs.com/package/pi-mcp-adapter) | MCP 协议适配扩展 |
 | [pi-cache-optimizer](https://www.npmjs.com/package/pi-cache-optimizer) | Prompt/KV cache 命中优化 |
 | [pi-session-name](https://www.npmjs.com/package/pi-session-name) | 自动生成会话标题并同步终端标题状态 |
 | [@lanlance/pi-recap](https://www.npmjs.com/package/@lanlance/pi-recap) | Claude Code-style session recap / status line above the Pi status bar |
@@ -124,6 +123,8 @@ pi install .
   - `@earendil-works/pi-agent-core`
   - `@earendil-works/pi-coding-agent`
   - `@earendil-works/pi-tui`
+  - 上述包的旧 scope 名 `@mariozechner/pi-*`，Pi 运行时同样以虚拟模块提供；
+    放进 `dependencies`（即使写成 alias）会安装真实副本并触发 host-provided 警告
   - `typebox`
 - 部分第三方包对 Pi 核心包的 peer range 已过期（如 `@mohndoe/pi-atlas` 要求
   `@earendil-works/pi-tui >=0.74.0 <0.77.0`，而本 preset 跟随 Pi 运行时 0.84.x）。
