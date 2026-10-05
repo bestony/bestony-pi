@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.78",
+  "version": "0.0.79",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -35,7 +35,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "@dietrichgebert/ponytail": "^4.10.3",
+    "@dietrichgebert/ponytail": "^4.13.0",
     "@lanlance/pi-recap": "^0.3.0",
     "@mohndoe/pi-atlas": "^0.2.1",
     "@narumitw/pi-goal": "^0.54.8",
@@ -44,11 +44,11 @@
     "@tintinweb/pi-subagents": "^0.19.0",
     "fast-uri": "4.2.1",
     "ip-address": "10.7.3",
-    "pi-cache-optimizer": "^2.8.18",
+    "pi-cache-optimizer": "^2.8.19",
     "pi-dsml": "^0.0.1",
     "pi-init": "^1.0.0",
     "pi-session-name": "^0.1.6",
-    "pi-web-access": "^0.35.0",
+    "pi-web-access": "^0.36.0",
     "pi-zenmux": "^0.3.0",
     "qs": "6.16.0",
     "smol-toml": "1.9.0",
