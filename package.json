@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.82",
+  "version": "0.0.83",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -42,6 +42,7 @@
     "@narumitw/pi-plan-mode": "^0.59.2",
     "@quintinshaw/pi-dynamic-workflows": "^3.14.0",
     "@tintinweb/pi-subagents": "^0.19.0",
+    "@trevonistrevon/pi-loop": "^0.7.17",
     "fast-uri": "4.2.1",
     "ip-address": "10.7.3",
     "pi-cache-optimizer": "^2.8.21",
@@ -66,6 +67,7 @@
       "node_modules/pi-session-name/src/index.ts",
       "node_modules/@tintinweb/pi-subagents/src/index.ts",
       "node_modules/@quintinshaw/pi-dynamic-workflows/extensions/workflow.ts",
+      "node_modules/@trevonistrevon/pi-loop/dist/index.js",
       "node_modules/@mohndoe/pi-atlas/src/index.ts",
       "node_modules/pi-dsml/extensions/index.ts",
       "node_modules/statusline-pi/src/index.ts"
@@ -93,6 +95,7 @@
     "@narumitw/pi-plan-mode",
     "@quintinshaw/pi-dynamic-workflows",
     "@tintinweb/pi-subagents",
+    "@trevonistrevon/pi-loop",
     "pi-cache-optimizer",
     "pi-dsml",
     "pi-init",

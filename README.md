@@ -57,6 +57,7 @@ pi config                         # 启用/禁用具体资源
 | [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
 | [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
 | [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
+| [@trevonistrevon/pi-loop](https://www.npmjs.com/package/@trevonistrevon/pi-loop) | 持久化 loop / workflow / task / subagent orchestration / 后台 monitor（`/loop`、`/tasks` 等） |
 | [pi-dsml](https://www.npmjs.com/package/pi-dsml) | 把 DeepSeek 以纯文本返回的 DSML tool call 还原为真实 tool call 并执行 |
 | [statusline-pi](https://www.npmjs.com/package/statusline-pi) | 紧凑型底部状态栏扩展（目录、git 分支变更、上下文剩余、响应速度、模型与 PR 编号） |
 
