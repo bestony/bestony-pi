@@ -75,7 +75,6 @@
     "skills": [
       "./skills",
       "node_modules/@dietrichgebert/ponytail/skills",
-      "node_modules/pi-web-access/skills",
       "node_modules/pi-init/skills/init/SKILL.md",
       "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-authoring",
       "node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-patterns"
