@@ -55,7 +55,6 @@ pi config                         # 启用/禁用具体资源
 | [@dietrichgebert/ponytail](https://www.npmjs.com/package/@dietrichgebert/ponytail) | 编码风格人格与强度切换（off/lite/full/ultra）+ review/audit/debt 等 skills |
 | [@narumitw/pi-goal](https://www.npmjs.com/package/@narumitw/pi-goal) | Autonomous single-objective `/goal` completion extension |
 | [@narumitw/pi-plan-mode](https://www.npmjs.com/package/@narumitw/pi-plan-mode) | Codex 风格的只读 `/plan` 协作模式 |
-| [@tintinweb/pi-subagents](https://www.npmjs.com/package/@tintinweb/pi-subagents) | Claude Code 风格的自主 sub-agents |
 | [@quintinshaw/pi-dynamic-workflows](https://www.npmjs.com/package/@quintinshaw/pi-dynamic-workflows) | 动态 workflow（`workflow` 工具、`/workflows` 等） |
 | [@trevonistrevon/pi-loop](https://www.npmjs.com/package/@trevonistrevon/pi-loop) | 持久化 loop / workflow / task / subagent orchestration / 后台 monitor（`/loop`、`/tasks` 等） |
 | [pi-dsml](https://www.npmjs.com/package/pi-dsml) | 把 DeepSeek 以纯文本返回的 DSML tool call 还原为真实 tool call 并执行 |
