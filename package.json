@@ -1,6 +1,6 @@
 {
   "name": "bestony-pi-preset",
-  "version": "0.0.87",
+  "version": "0.0.88",
   "description": "Bestony's personal Pi coding agent preset — skills, extensions, prompts, and themes.",
   "license": "MIT",
   "author": "bestony",
@@ -42,7 +42,7 @@
     "@narumitw/pi-plan-mode": "^0.59.2",
     "@quintinshaw/pi-dynamic-workflows": "^3.14.0",
     "@trevonistrevon/pi-loop": "^0.7.17",
-    "fast-uri": "4.2.1",
+    "fast-uri": "4.2.2",
     "ip-address": "10.7.3",
     "pi-cache-optimizer": "^2.8.24",
     "pi-dsml": "^0.0.1",
